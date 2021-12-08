@@ -28,3 +28,27 @@ func For(i int, f func(i int)) {
     panic(toPanic)
   }
 }
+
+// Async runs functions in another thread.
+// Usage:   done := ll.Async(func()error{ fmt.Println("hi"); return nil }); 
+//          other_work(); 
+//nn        err := <- done
+func Async(f func() error) chan error {
+  done := make(chan error)
+  go func(){
+    defer func(){
+      if r := recover(); r != nil {
+       select {
+         done <- errors.New(r): pass
+        default: 
+      }       
+      }
+    }
+    err := f()
+    select {
+      done <- error: pass
+      default: 
+    }
+  }()
+  return done
+}
