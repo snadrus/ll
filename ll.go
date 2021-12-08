@@ -2,6 +2,9 @@ package ll
 
 import "sync"
 
+// Parallel For loop with panic catching/forwarding and built-in waiting. 
+// Ex: ll.For(len(fooList), func(i int){ fmt.Println(fooList[i]) })
+// Note, it's most often coupled with an mx-protected output.
 func For(i int, f func(i int)) {
   wg := sync.WaitGroup{}
   wg.Add(i)
